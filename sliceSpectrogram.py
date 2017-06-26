@@ -39,5 +39,5 @@ def sliceSpectrogram(filename, desiredSize):
 		startPixel = i*desiredSize
 		#imgTmp = img.crop((startPixel, 1, startPixel + desiredSize, desiredSize + 1))
 		imgTmp = img.crop((startPixel, 1, startPixel + desiredSize, 1025))
-		imgTmp.save(slicesPath+"{}/{}_{}.png".format(genre,filename[:-4],i))
+		imgTmp.save(slicesPath+"{}/{}_{}.png".format(genre,filename[:-4],str(i).zfill(5)))
 

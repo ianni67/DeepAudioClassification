@@ -67,7 +67,7 @@ def createSpectrogramsFromAudio():
 		fileGenre = t[0]
 		genresID[fileGenre] = genresID[fileGenre] + 1 if fileGenre in genresID else 1
 		fileID = genresID[fileGenre]
-		newFilename = fileGenre+"_"+str(fileID)
+		newFilename = fileGenre+"_"+str(fileID).zfill(5)
 		#print "Creating spectrogram for file {}/{}...{}".format(index+1,nbFiles,newFilename)
 		createSpectrogram(filename,newFilename)
 
