@@ -3,6 +3,7 @@ from subprocess import Popen, PIPE, STDOUT
 import os
 from PIL import Image
 import eyed3
+import re
 
 from sliceSpectrogram import createSlicesFromSpectrograms
 from audioFilesTools import isMono, getGenre
@@ -33,7 +34,7 @@ def createSpectrogram(filename,newFilename):
 
 	#Create spectrogram
 	filename.replace(".mp3","")
-	command = "sox '/tmp/{}.mp3' -n spectrogram -Y 200 -X {} -m -r -o '{}.png'".format(newFilename,pixelPerSecond,spectrogramsPath+newFilename)
+	command = "sox '/tmp/{}.mp3' -n spectrogram -Y 1028 -X {} -m -r -o '{}.png'".format(newFilename,pixelPerSecond,spectrogramsPath+newFilename)
 	p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True, cwd=currentPath)
 	output, errors = p.communicate()
 	if errors:
@@ -59,11 +60,15 @@ def createSpectrogramsFromAudio():
 
 	#Rename files according to genre
 	for index,filename in enumerate(files):
-		print "Creating spectrogram for file {}/{}...".format(index+1,nbFiles)
-		fileGenre = getGenre(rawDataPath+filename)
+		print "Creating spectrogram for file {}/{}...{}".format(index+1,nbFiles,rawDataPath+filename)
+		#fileGenre = getGenre(rawDataPath+filename)
+		fignr = getGenre(rawDataPath+filename)
+		t = re.split('\W+',fignr)
+		fileGenre = t[0]
 		genresID[fileGenre] = genresID[fileGenre] + 1 if fileGenre in genresID else 1
 		fileID = genresID[fileGenre]
 		newFilename = fileGenre+"_"+str(fileID)
+		#print "Creating spectrogram for file {}/{}...{}".format(index+1,nbFiles,newFilename)
 		createSpectrogram(filename,newFilename)
 
 #Whole pipeline .mp3 -> .png slices
