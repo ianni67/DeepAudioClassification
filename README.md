@@ -7,7 +7,7 @@ My modifications are aimed at experimenting with more informative formats of spe
 Moreover, the vertical size of the slices is now 1024 instead of 128, so
 the slices are rectangular instead of square.
 
-This code is _heavily experimental_ and might not work from time to time.
+This code is a _heavily experimental_ work in progress and might not work from time to time.
 
 Required install:
 
