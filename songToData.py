@@ -5,6 +5,8 @@ from PIL import Image
 import eyed3
 import re
 
+import SpectroImageTools as SIT
+
 from sliceSpectrogram import createSlicesFromSpectrograms
 from audioFilesTools import isMono, getGenre
 from config import rawDataPath
@@ -31,14 +33,17 @@ def createSpectrogram(filename,newFilename):
 	output, errors = p.communicate()
 	if errors:
 		print errors
-
+	
 	#Create spectrogram
 	filename.replace(".mp3","")
-	command = "sox '/tmp/{}.mp3' -n spectrogram -Y 1028 -X {} -m -r -o '{}.png'".format(newFilename,pixelPerSecond,spectrogramsPath+newFilename)
-	p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True, cwd=currentPath)
-	output, errors = p.communicate()
-	if errors:
-		print errors
+	#command = "sox '/tmp/{}.mp3' -n spectrogram -Y 1028 -X {} -m -r -o '{}.png'".format(newFilename,pixelPerSecond,spectrogramsPath+newFilename)
+	#p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True, cwd=currentPath)
+	#output, errors = p.communicate()
+	#if errors:
+	#	print errors
+	
+	# Experimental functions!
+	SIT.SoundToSpectroImage('/tmp/{}.mp3'.format(newFilename), '{}.png'.format(spectrogramsPath+newFilename))
 
 	#Remove tmp mono track
 	os.remove("/tmp/{}.mp3".format(newFilename))
