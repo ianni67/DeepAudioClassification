@@ -1,8 +1,6 @@
 # MODIFIED Deep Audio Classification
 
-This is a modified fork from "Finding the genre of a song with Deep Learning" (https://medium.com/@juliendespois/finding-the-genre-of-a-song-with-deep-learning-da8f59a61194#.yhemoyql0).
-
-My modifications are aimed at experimenting with more informative formats of spectrogram-like images, keeping 16bit magnitude instead of 8 bit, and also keeping the phase.
+This is a fork from "Finding the genre of a song with Deep Learning" (https://medium.com/@juliendespois/finding-the-genre-of-a-song-with-deep-learning-da8f59a61194#.yhemoyql0), aimed at experimenting with more informative formats of spectrogram-like images, keeping 16bit magnitude instead of 8 bit, and also keeping the phase.
 
 Moreover, the vertical size of the slices is now 1024 instead of 128, so
 the slices are rectangular instead of square.
