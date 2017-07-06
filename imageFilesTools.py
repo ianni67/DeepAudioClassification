@@ -4,7 +4,7 @@ import numpy as np
 
 #Returns numpy image at size imageSize*imageSize
 def getProcessedData(img,imageSize, sliceHeight):
-    img = img.resize((imageSize,imageSize), resample=Image.ANTIALIAS)
+    img = img.resize((imageSize,sliceHeight), resample=Image.ANTIALIAS)
     imgData = np.asarray(img, dtype=np.uint8).reshape(imageSize, sliceHeight,1)
     imgData = imgData/255.
     return imgData
