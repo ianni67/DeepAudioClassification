@@ -5,14 +5,14 @@ import os.path
 from config import spectrogramsPath, slicesPath
 
 #Slices all spectrograms
-def createSlicesFromSpectrograms(desiredSize):
+def createSlicesFromSpectrograms(desiredSize, desiredHeight):
 	for filename in os.listdir(spectrogramsPath):
 		if filename.endswith(".png"):
-			sliceSpectrogram(filename,desiredSize)
+			sliceSpectrogram(filename,desiredSize, desiredHeight)
 
 #Creates slices from spectrogram
 #TODO Improvement - Make sure we don't miss the end of the song
-def sliceSpectrogram(filename, desiredSize):
+def sliceSpectrogram(filename, desiredSize, desiredHeight):
 	genre = filename.split("_")[0] 	#Ex. Dubstep_19.png
 
 	# Load the full spectrogram
@@ -38,6 +38,6 @@ def sliceSpectrogram(filename, desiredSize):
 		#Extract and save 128x128 sample
 		startPixel = i*desiredSize
 		#imgTmp = img.crop((startPixel, 1, startPixel + desiredSize, desiredSize + 1))
-		imgTmp = img.crop((startPixel, 1, startPixel + desiredSize, 1025))
+		imgTmp = img.crop((startPixel, 1, startPixel + desiredSize, desiredHeight+1))
 		imgTmp.save(slicesPath+"{}/{}_{}.png".format(genre,filename[:-4],str(i).zfill(5)))
 

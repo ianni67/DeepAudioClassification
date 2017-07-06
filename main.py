@@ -13,6 +13,7 @@ from config import filesPerGenre
 from config import nbEpoch
 from config import validationRatio, testRatio
 from config import sliceSize
+from config import sliceHeight
 
 from songToData import createSlicesFromAudio
 
@@ -39,12 +40,12 @@ genres = [filename for filename in genres if os.path.isdir(slicesPath+filename)]
 nbClasses = len(genres)
 
 #Create model 
-model = createModel(nbClasses, sliceSize)
+model = createModel(nbClasses, sliceSize, sliceHeight)
 
 if "train" in args.mode:
 
 	#Create or load new dataset
-	train_X, train_y, validation_X, validation_y = getDataset(filesPerGenre, genres, sliceSize, validationRatio, testRatio, mode="train")
+	train_X, train_y, validation_X, validation_y = getDataset(filesPerGenre, genres, sliceSize, sliceHeight, validationRatio, testRatio, mode="train")
 
 	#Define run id for graphs
 	run_id = "MusicGenres - "+str(batchSize)+" "+''.join(random.SystemRandom().choice(string.ascii_uppercase) for _ in range(10))
@@ -62,7 +63,7 @@ if "train" in args.mode:
 if "test" in args.mode:
 
 	#Create or load new dataset
-	test_X, test_y = getDataset(filesPerGenre, genres, sliceSize, validationRatio, testRatio, mode="test")
+	test_X, test_y = getDataset(filesPerGenre, genres, sliceSize, sliceHeight, validationRatio, testRatio, mode="test")
 
 	#Load weights
 	print("[+] Loading weights...")

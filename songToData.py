@@ -15,6 +15,8 @@ from config import pixelPerSecond
 
 #Tweakable parameters
 desiredSize = 128
+desiredHeight = 1024
+withPhase = False
 
 #Define
 currentPath = os.path.dirname(os.path.realpath(__file__)) 
@@ -36,15 +38,15 @@ def createSpectrogram(filename,newFilename):
 	
 	#Create spectrogram
 	filename.replace(".mp3","")
-	#command = "sox '/tmp/{}.mp3' -n spectrogram -Y 1028 -X {} -m -r -o '{}.png'".format(newFilename,pixelPerSecond,spectrogramsPath+newFilename)
-	#p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True, cwd=currentPath)
-	#output, errors = p.communicate()
-	#if errors:
-	#	print errors
+	if withPhase == True :
+		SIT.SoundToSpectroImage('/tmp/{}.mp3'.format(newFilename), '{}.png'.format( spectrogramsPath+newFilename ))
+        else:
+		command = "sox '/tmp/{}.mp3' -n spectrogram -Y {} -X {} -m -r -o '{}.png'".format(newFilename, desiredHeight+4, pixelPerSecond, spectrogramsPath+newFilename)
+        	p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True, cwd=currentPath)
+        	output, errors = p.communicate()
+        	if errors:
+            		print errors
 	
-	# Experimental functions!
-	SIT.SoundToSpectroImage('/tmp/{}.mp3'.format(newFilename), '{}.png'.format(spectrogramsPath+newFilename))
-
 	#Remove tmp mono track
 	os.remove("/tmp/{}.mp3".format(newFilename))
 
@@ -83,5 +85,5 @@ def createSlicesFromAudio():
 	print "Spectrograms created!"
 
 	print "Creating slices..."
-	createSlicesFromSpectrograms(desiredSize)
+	createSlicesFromSpectrograms(desiredSize,desiredHeight)
 	print "Slices created!"

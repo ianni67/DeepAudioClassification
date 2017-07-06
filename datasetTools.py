@@ -22,11 +22,11 @@ def getDatasetName(nbPerGenre, sliceSize):
 
 #Creates or loads dataset if it exists
 #Mode = "train" or "test"
-def getDataset(nbPerGenre, genres, sliceSize, validationRatio, testRatio, mode):
+def getDataset(nbPerGenre, genres, sliceSize, sliceHeight, validationRatio, testRatio, mode):
     print("[+] Dataset name: {}".format(getDatasetName(nbPerGenre,sliceSize)))
     if not os.path.isfile(datasetPath+"train_X_"+getDatasetName(nbPerGenre, sliceSize)+".p"):
         print("[+] Creating dataset with {} slices of size {} per genre... ⌛️".format(nbPerGenre,sliceSize))
-        createDatasetFromSlices(nbPerGenre, genres, sliceSize, validationRatio, testRatio) 
+        createDatasetFromSlices(nbPerGenre, genres, sliceSize, sliceHeight, validationRatio, testRatio) 
     else:
         print("[+] Using existing dataset")
     
@@ -75,7 +75,7 @@ def saveDataset(train_X, train_y, validation_X, validation_y, test_X, test_y, nb
     print("    Dataset saved! ✅💾")
 
 #Creates and save dataset from slices
-def createDatasetFromSlices(nbPerGenre, genres, sliceSize, validationRatio, testRatio):
+def createDatasetFromSlices(nbPerGenre, genres, sliceSize, sliceHeight, validationRatio, testRatio):
     data = []
     for genre in genres:
         print("-> Adding {}...".format(genre))
@@ -88,7 +88,7 @@ def createDatasetFromSlices(nbPerGenre, genres, sliceSize, validationRatio, test
 
         #Add data (X,y)
         for filename in filenames:
-            imgData = getImageData(slicesPath+genre+"/"+filename, sliceSize)
+            imgData = getImageData(slicesPath+genre+"/"+filename, sliceSize, sliceHeight)
             label = [1. if genre == g else 0. for g in genres]
             data.append((imgData,label))
 
@@ -104,11 +104,11 @@ def createDatasetFromSlices(nbPerGenre, genres, sliceSize, validationRatio, test
     trainNb = len(X)-(validationNb + testNb)
 
     #Prepare for Tflearn at the same time
-    train_X = np.array(X[:trainNb]).reshape([-1, sliceSize, sliceSize, 1])
+    train_X = np.array(X[:trainNb]).reshape([-1, sliceSize, sliceHeight, 1])
     train_y = np.array(y[:trainNb])
-    validation_X = np.array(X[trainNb:trainNb+validationNb]).reshape([-1, sliceSize, sliceSize, 1])
+    validation_X = np.array(X[trainNb:trainNb+validationNb]).reshape([-1, sliceSize, sliceHeight, 1])
     validation_y = np.array(y[trainNb:trainNb+validationNb])
-    test_X = np.array(X[-testNb:]).reshape([-1, sliceSize, sliceSize, 1])
+    test_X = np.array(X[-testNb:]).reshape([-1, sliceSize, sliceHeight, 1])
     test_y = np.array(y[-testNb:])
     print("    Dataset created! ✅")
         
