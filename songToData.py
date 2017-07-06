@@ -15,7 +15,7 @@ from config import pixelPerSecond
 
 #Tweakable parameters
 desiredSize = 128
-desiredHeight = 1024
+desiredHeight = 256
 withPhase = False
 
 #Define
