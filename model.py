@@ -25,7 +25,7 @@ def createModel(nbClasses,imageSize, sliceHeight):
 
 	convnet = conv_2d(convnet, 1024, 2, activation='elu', weights_init="Xavier")
 	convnet = max_pool_2d(convnet, 2)
-	
+
 	convnet = fully_connected(convnet, 2048, activation='elu')
 	convnet = dropout(convnet, 0.5)
 
