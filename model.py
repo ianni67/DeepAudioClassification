@@ -37,9 +37,10 @@ def createModel(nbClasses,imageSize, sliceHeight):
 	convnet = dropout(convnet, 0.5)
 
 	convnet = fully_connected(convnet, nbClasses, activation='softmax')
-#	convnet = regression(convnet, optimizer='rmsprop', loss='categorical_crossentropy')
-	sgd = SGD(learning_rate=learningRate, lr_decay=0.96, decay_step=100)
-	convnet = regression(convnet, optimizer='sgd', loss='categorical_crossentropy')
+	rmsprop = RMSProp(learning_rate=learningRate, lr_decay=0.999)
+#	sgd = SGD(learning_rate=learningRate, lr_decay=0.96, decay_step=100)
+	convnet = regression(convnet, optimizer='rmsprop', loss='categorical_crossentropy')
+#	convnet = regression(convnet, optimizer='sgd', loss='categorical_crossentropy')
 
 	model = tflearn.DNN(convnet)
 	print("    Model created! ✅")
