@@ -7,6 +7,7 @@ from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.estimator import regression
 from tflearn.optimizers import SGD
+from tflearn.optimizers import RMSProp
 
 from config import learningRate
 
@@ -37,7 +38,7 @@ def createModel(nbClasses,imageSize, sliceHeight):
 	convnet = dropout(convnet, 0.5)
 
 	convnet = fully_connected(convnet, nbClasses, activation='softmax')
-	rmsprop = RMSProp(learning_rate=learningRate, lr_decay=0.999)
+	rmsprop = RMSProp(learning_rate=learningRate, decay=0.999)
 #	sgd = SGD(learning_rate=learningRate, lr_decay=0.96, decay_step=100)
 	convnet = regression(convnet, optimizer='rmsprop', loss='categorical_crossentropy')
 #	convnet = regression(convnet, optimizer='sgd', loss='categorical_crossentropy')
