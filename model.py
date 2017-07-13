@@ -6,6 +6,9 @@ import tflearn
 from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.estimator import regression
+from tflearn.optimizers import SGD
+
+from config import learningRate
 
 def createModel(nbClasses,imageSize, sliceHeight):
 	print("[+] Creating model...")
@@ -34,7 +37,9 @@ def createModel(nbClasses,imageSize, sliceHeight):
 	convnet = dropout(convnet, 0.5)
 
 	convnet = fully_connected(convnet, nbClasses, activation='softmax')
-	convnet = regression(convnet, optimizer='rmsprop', loss='categorical_crossentropy')
+#	convnet = regression(convnet, optimizer='rmsprop', loss='categorical_crossentropy')
+	sgd = SGD(learning_rate=learningRate, lr_decay=0.96, decay_step=100)
+	convnet = regression(convnet, optimizer='sgd', loss='categorical_crossentropy')
 
 	model = tflearn.DNN(convnet)
 	print("    Model created! ✅")
